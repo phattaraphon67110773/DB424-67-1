@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+require 'db.php';
 
 if (isset($_POST['signup'])){ 
     $username = $_POST['username'];
