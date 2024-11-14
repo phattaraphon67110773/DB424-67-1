@@ -3,14 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Lab 7</title>
+    <style>
+        #error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-<form action="signup.php"  method="post">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <button type="submit" name="signup">Sign Up</button>
-</form>
+    <!-- <form action="signup.php" method="POST"> -->
+    <h3 id ="error"></h3>
+    <form name="signup">
+    <!--  <input type="text" name="username" placeholder="Username"
+    required> -->
+    <select id="username" name="username" placeholder="Username"
+      required>
+     <!-- <option>123456</option> -->
+    </select>
+    <input type="password" type="password" name="password" 
+      placeholder="Password" required>
+    <button type="submit" id="signup" name="signup" 
+            onclick="sign_up(event)">Sign Up</button>
+    </form>
+    <script>
+        function sign_up(event) {
+                event.preventDefault();
+                const error = document.getElementById('error');
+                const body = new FormData(document.forms['signup'],
+                document.getElementById('signup')
+                );
+                if (body.get('password') == '') {
+                    error.innerHTML = 'Password is required.';
+                    return;
+                }
+            fetch('./api/signup.php', 
+            {
+                method: 'POST',
+                body
+            }
+        )
+            .then(response=>{
+                if (response.ok) {
+                    location.href = 'signin.html';
+                }  
+                else {
+                    response.text()
+                    .then(data=>error.innerHTML = data);
+                }  
+            });
+        }
+
+        fetch('./api/student-id.php')
+        .then((response)=>response.json())
+        .then((data)=>{
+        let options = '';
+        for (let id of data) {
+            options += `<option>${id['studentID']}</option>`;
+        }
+        document.getElementById('username').innerHTML = options;
+        });
+    </script>
 </body>
 </html>
-
