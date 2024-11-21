@@ -34,8 +34,8 @@ $student= $result->fetch_assoc();
              <input required name="fristname" type="text" class="form-control" id="student-name"
              value="<?php echo $student['fristname'];?>">
              <div class="mb-2">
-             <label for="student-name" class="form-label">Student Name</label>
-             <input required name="lastname" type="text" class="form-control" id="student-name"
+             <label for="lastname" class="form-label">Lastname</label>
+             <input required name="lastname" type="text" class="form-control" id="lastname"
              value="<?php echo $student['lastname'];?>">
            </div>
            <div class="mb-2">
@@ -46,7 +46,7 @@ $sql = 'select * from major order by faculty';
 $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()) {
 echo "<option value='{$row['majorID']}'".($row['majorID']==$student['majorID']?' selected':'').">
-     {$row['faculty']}-{$row['majorName']}
+     {$row['faculty']}-{$row['majotNAME']}
    </option>";
 }
 $conn->close();
@@ -61,6 +61,19 @@ $conn->close();
      </div>
    </div>
  </form>
+ <script>
+  function preview(){
+
+   const profileImage = document.getElementById('profile-image');
+   const image = document.getElementById('image');
+   image.innerHTML = '<img class="img-fluid rounded-circle">';
+   const img = image.querySelector('img');
+   img.src = URL.createObjectURL(profileImage.files[0]);
+   img.onload = () => {
+     URL.revokeObjectURL(img.src);
+   };
+ }
+ </script>
 <?php
 include 'footer.php';
 ?>

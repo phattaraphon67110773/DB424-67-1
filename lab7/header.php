@@ -26,21 +26,26 @@ if (!isset($_SESSION['user'])){
           <li><a href="#" class="nav-link px-2 link-secondary">Overview</a></li>
           <li><a href="#" class="nav-link px-2 link-body-emphasis">Inventory</a></li>
           <li><a href="#" class="nav-link px-2 link-body-emphasis">Customers</a></li>
-          <li><a href="#" class="nav-link px-2 link-body-emphasis">Products</a></li>
+          <li><a href="activity.php" class="nav-link px-2 link-body-emphasis">Activity</a></li>
         </ul>
 
         <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
           <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
         </form>
-
+<?php
+require 'db.php';
+$sql= "select image from student
+where studentID='{$_SESSION['user']['studentID']}'";
+$student= $conn ->query($sql)->fetch_assoc();
+?>
         <div class="dropdown text-end">
           <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            <img src="images/profiles/<?php echo $student['image']; ?>"alt="mdo" width="32" height="32" class="rounded-circle">
           </a>
           <ul class="dropdown-menu text-small" style="">
             <li><a class="dropdown-item" href="profile.php">Profile</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" onclick="signout()">Sign out</a></li>
+            <li><a class="dropdown-item" href="api/signout.php">Sign out</a></li>
           </ul>
         </div>
 </div>
